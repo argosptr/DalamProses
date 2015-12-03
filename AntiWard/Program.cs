@@ -29,100 +29,78 @@ namespace AntiWard
         {
             if (args.GameEvent.Name == "dota_inventory_changed")
             {
-                for (int i = 0; i < 10; i++)
+                #region gambar
+                for (var i = 0; i < 10; i++)
                 {
-                    player[i] = ObjectMgr.GetPlayerById((uint)i);
-                    var obs = player[i].Hero.Inventory.Items.Where(x => x.ClassID == ClassID.CDOTA_Item_ObserverWard).ToList();
-                    var sent = player[i].Hero.Inventory.Items.Where(x => x.ClassID == ClassID.CDOTA_Item_SentryWard).ToList();
-                    var disp = player[i].Hero.Inventory.Items.Where(x => x.ClassID == ClassID.CDOTA_Item_Ward_Dispenser).ToList();
-                    foreach (var ob in obs)
+                    ParticleEffect effect;
+                    Vector2 screen;
+
+                    if (Drawing.WorldToScreen(spot1[i], out screen))
                     {
-                        if (ob.AbilityState == AbilityState.ItemOnCooldown)
-                            Game.ExecuteCommand("say_team " + player[i].Hero.Name.Replace("npc_dota_hero_", "") + " masang obs");
+                        var first = new Vector3(spot1[i].X + 50, spot1[i].Y, 500);
+                        var second = new Vector3(spot2[i].X - 50, spot2[i].Y, 500);
+                        if (!Effect.ContainsKey(string.Format("{0} / {1}", i, 1)))
+                        {
+                            effect = new ParticleEffect(EffectPath,
+                                first);
+                            effect.SetControlPoint(0, first);
+                            Effect.Add(string.Format("{0} / {1}", i, 1), effect);
+                        }
+                        if (!Effect2.ContainsKey(string.Format("{0} / {1}", i, 1)))
+                        {
+                            effect = new ParticleEffect(EffectPath,
+                                second);
+                            effect.SetControlPoint(0, second);
+                            Effect2.Add(string.Format("{0} / {1}", i, 1), effect);
+                        }
+
+                        var firsty = new Vector3(spot1[i].X, spot1[i].Y - 50, 500);
+                        var secondy = new Vector3(spot2[i].X, spot2[i].Y + 50, 500);
+                        if (!Effect3.ContainsKey(string.Format("{0} / {1}", i, 1)))
+                        {
+                            effect = new ParticleEffect(EffectPath,
+                                first);
+                            effect.SetControlPoint(0, firsty);
+                            Effect3.Add(string.Format("{0} / {1}", i, 1), effect);
+                        }
+                        if (!Effect4.ContainsKey(string.Format("{0} / {1}", i, 1)))
+                        {
+                            effect = new ParticleEffect(EffectPath,
+                                secondy);
+                            effect.SetControlPoint(0, secondy);
+                            Effect4.Add(string.Format("{0} / {1}", i, 1), effect);
+                        }
+
                     }
-                    foreach (var sen in sent)
+                    else
                     {
-                        if (sen.AbilityState == AbilityState.ItemOnCooldown)
-                            Game.ExecuteCommand("say_team " + player[i].Hero.Name.Replace("npc_dota_hero_", "") + " masang sentry");
+                        if (Effect.TryGetValue(string.Format("{0} / {1}", i, 1), out effect))
+                        {
+                            effect.Dispose();
+                            Effect.Remove(string.Format("{0} / {1}", i, 1));
+                        }
+                        if (Effect2.TryGetValue(string.Format("{0} / {1}", i, 1), out effect))
+                        {
+                            effect.Dispose();
+                            Effect2.Remove(string.Format("{0} / {1}", i, 1));
+                        }
+
+                        if (Effect3.TryGetValue(string.Format("{0} / {1}", i, 1), out effect))
+                        {
+                            effect.Dispose();
+                            Effect3.Remove(string.Format("{0} / {1}", i, 1));
+                        }
+                        if (Effect4.TryGetValue(string.Format("{0} / {1}", i, 1), out effect))
+                        {
+                            effect.Dispose();
+                            Effect4.Remove(string.Format("{0} / {1}", i, 1));
+                        }
                     }
-                    foreach (var dis in disp)
-                    {
-                        if (disp.Any())
-                            Game.ExecuteCommand("say_team " + player[i].Hero.Name.Replace("npc_dota_hero_", "") + " bawa disp charge = " + dis.CurrentCharges);
-                    }
+
                 }
-            
+                #endregion
             }
-            #region gambar
-            for (var i = 0; i < 10; i++)
-            {
-                ParticleEffect effect;
-                Vector2 screen;
 
-                if (Drawing.WorldToScreen(spot1[i], out screen))
-                {
-                    var first = new Vector3(spot1[i].X + 50, spot1[i].Y, 500);
-                    var second = new Vector3(spot2[i].X - 50, spot2[i].Y, 500);
-                    if (!Effect.ContainsKey(string.Format("{0} / {1}", i, 1)))
-                    {
-                        effect = new ParticleEffect(EffectPath,
-                            first);
-                        effect.SetControlPoint(0, first);
-                        Effect.Add(string.Format("{0} / {1}", i, 1), effect);
-                    }
-                    if (!Effect2.ContainsKey(string.Format("{0} / {1}", i, 1)))
-                    {
-                        effect = new ParticleEffect(EffectPath,
-                            second);
-                        effect.SetControlPoint(0, second);
-                        Effect2.Add(string.Format("{0} / {1}", i, 1), effect);
-                    }
-
-                    var firsty = new Vector3(spot1[i].X, spot1[i].Y - 50, 500);
-                    var secondy = new Vector3(spot2[i].X, spot2[i].Y + 50, 500);
-                    if (!Effect3.ContainsKey(string.Format("{0} / {1}", i, 1)))
-                    {
-                        effect = new ParticleEffect(EffectPath,
-                            first);
-                        effect.SetControlPoint(0, firsty);
-                        Effect3.Add(string.Format("{0} / {1}", i, 1), effect);
-                    }
-                    if (!Effect4.ContainsKey(string.Format("{0} / {1}", i, 1)))
-                    {
-                        effect = new ParticleEffect(EffectPath,
-                            secondy);
-                        effect.SetControlPoint(0, secondy);
-                        Effect4.Add(string.Format("{0} / {1}", i, 1), effect);
-                    }
-
-                }
-                else
-                {
-                    if (Effect.TryGetValue(string.Format("{0} / {1}", i, 1), out effect))
-                    {
-                        effect.Dispose();
-                        Effect.Remove(string.Format("{0} / {1}", i, 1));
-                    }
-                    if (Effect2.TryGetValue(string.Format("{0} / {1}", i, 1), out effect))
-                    {
-                        effect.Dispose();
-                        Effect2.Remove(string.Format("{0} / {1}", i, 1));
-                    }
-
-                    if (Effect3.TryGetValue(string.Format("{0} / {1}", i, 1), out effect))
-                    {
-                        effect.Dispose();
-                        Effect3.Remove(string.Format("{0} / {1}", i, 1));
-                    }
-                    if (Effect4.TryGetValue(string.Format("{0} / {1}", i, 1), out effect))
-                    {
-                        effect.Dispose();
-                        Effect4.Remove(string.Format("{0} / {1}", i, 1));
-                    }
-                }
-
-            }
-            #endregion
 
             throw new NotImplementedException();
         }
