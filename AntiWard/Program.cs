@@ -29,6 +29,7 @@ namespace AntiWard
         {
             if (args.GameEvent.Name == "dota_inventory_changed")
             {
+                Game.ExecuteCommand("say " + spot1[1].X + " " + spot1[1].Y);
                 #region gambar
                 for (var i = 0; i < 10; i++)
                 {
@@ -208,7 +209,6 @@ namespace AntiWard
 
             }
             #endregion
-            throw new NotImplementedException();
         }
 
         private static void Drawing_OnDraw(EventArgs args)
