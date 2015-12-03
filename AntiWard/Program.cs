@@ -9,7 +9,7 @@ namespace AntiWard
 {
     class Program
     {
-        private static bool _loaded = false;
+        private static bool _loaded;
         private static readonly Dictionary<string, ParticleEffect> Effect = new Dictionary<string, ParticleEffect>();
         private static readonly Dictionary<string, ParticleEffect> Effect2 = new Dictionary<string, ParticleEffect>();
         private static readonly Dictionary<string, ParticleEffect> Effect3 = new Dictionary<string, ParticleEffect>();
