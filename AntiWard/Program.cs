@@ -22,6 +22,7 @@ namespace AntiWard
         static void Main(string[] args)
         {
             _loaded = false;
+            Game.OnUpdate += Game_OnUpdate;
             Game.OnFireEvent += Game_OnFireEvent;
         }
 
