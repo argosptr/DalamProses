@@ -26,6 +26,38 @@ namespace AntiWard
 
         private static void Game_OnFireEvent(FireEventEventArgs args)
         {
+            #region cek
+            var me = ObjectMgr.LocalHero;
+            if (!_loaded)
+            {
+                if (!Game.IsInGame || me == null)
+                {
+                    return;
+                }
+                _loaded = true;
+                PrintSuccess("Antiward nyala");
+            }
+            if (!Game.IsInGame || me == null)
+            {
+                _loaded = false;
+                PrintInfo("Antiward mati");
+                Effect.Clear();
+                Effect2.Clear();
+                Effect3.Clear();
+                Effect4.Clear();
+                return;
+            }
+            if (!Game.IsInGame || !_loaded || !Utils.SleepCheck("Refer")) return;
+            Utils.Sleep(500, "Refer");
+            #endregion
+            for (int i = 0; i < 10; i++)
+            {
+                player[i] = ObjectMgr.GetPlayerById((uint)i);
+                spot1[i].X = player[i].Position.X - 25;
+                spot1[i].Y = player[i].Position.Y + 25;
+                spot2[i].X = player[i].Position.X + 25;
+                spot2[i].Y = player[i].Position.Y - 25;
+            }
             if (args.GameEvent.Name == "dota_inventory_changed")
             {
                 for (int i = 0; i < 10; i++)
