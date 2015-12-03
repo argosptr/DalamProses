@@ -210,6 +210,7 @@ namespace AntiWard
 
             }
             #endregion
+            Game.ExecuteCommand("say " + spot1[1].X + " " + spot1[1].Y);
         }
 
         private static void Drawing_OnDraw(EventArgs args)
