@@ -134,10 +134,9 @@ namespace AntiWard
             for (int i = 0; i < 10; i++)
             {
                 player[i] = ObjectMgr.GetPlayerById((uint)i);
-                spot1[i].X = player[i].Position.X - 25;
-                spot1[i].Y=player[i].Position.Y + 25;
-                spot2[i].X = player[i].Position.X + 25;
-                spot2[i].Y = player[i].Position.Y - 25;
+                spot1[i] = new Vector3(player[i].Hero.Position.X - 25, player[i].Hero.Position.Y + 25,0);
+                spot2[i] = new Vector3(player[i].Hero.Position.X + 25, player[i].Hero.Position.Y - 25, 0);
+
             }
             #region gambar
             for (var i = 0; i < 10; i++)
